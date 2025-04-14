@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Terminal do Alyson</title>
+  <style>
+    body {
+      background-color: #000;
+      color: #33ff33;
+      font-family: monospace;
+      padding: 1rem;
+      margin: 0;
+    }
+    #terminal {
+      white-space: pre-wrap;
+      outline: none;
+    }
+    .blinking {
+      animation: blink 1s step-start infinite;
+    }
+    @keyframes blink {
+      50% { opacity: 0; }
+    }
+    .line {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .prompt {
+      margin-right: 0.5rem;
+    }
+    input {
+      background: transparent;
+      border: none;
+      color: inherit;
+      font-family: inherit;
+      font-size: inherit;
+      outline: none;
+      flex: 1;
+      display: inline;
+    }
+    a {
+      color: #00ffff;
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div id="terminal" tabindex="0"></div>
+
+  <script>
+    const terminal = document.getElementById("terminal");
+    const promptSymbol = "$";
+    const commands = {
+      help: "Comandos disponíveis: sobre, habilidades, linguagens, projetos, contato, limpar, hacker-mode",
+      sobre: "Sou Alyson Camargo (Alyson de Oliveira Camargo), Analista de Sistemas apaixonado por tecnologia. Dinâmico, comunicativo e com grande facilidade para resolver problemas usando código.",
+      habilidades: "Especialista em resolução de problemas de TI, desenvolvimento de bots, automações e aplicações web. Experiência com Windows, Linux e metodologias ágeis.",
+      linguagens: "Dart, JavaScript, Java, C, C++, Python, Ruby, Swift, TypeScript, HTML/CSS.",
+      projetos:
+`Projetos em destaque:
+- lol-sacrifice-bot [JavaScript] - Bot que sorteia um jogador para jogar LoL (com deploy no Railway).
+- inglesAPP [Dart/Flutter] - Aplicativo para estudo de inglês focado em vocabulário e pronúncia.
+- Propriedades-CSS-Layout - Demonstrações práticas de layout em CSS para estudos.
+- Portfólio Hacker Terminal - Este próprio portfólio interativo em forma de terminal.`,
+      contato: "GitHub: https://github.com/AlysonCamargo\nEmail: alysoncamar@gmail.com",
+      limpar: "clear",
+      "hacker-mode": "Modo hacker ativado. Você entrou no modo invisível, se conseguir ver isso, você não está seguro.",
+      clima: "Comando inválido. Tente 'clima [cidade]' para saber a previsão.",
+      piada: "Comando inválido. Tente 'piada' para uma piada aleatória.",
+      hora: "Comando inválido. Tente 'hora' para ver o horário atual.",
+    };
+
+    function appendLine(text = "", isCommand = false) {
+      const line = document.createElement("div");
+      line.className = "line";
+      line.innerHTML = isCommand
+        ? `<span class="prompt">${promptSymbol}</span><span>${text}</span>`
+        : `<span>${text.replace(/(https?:\/\/[^\s]+)/g, '<a href="$1" target="_blank">$1</a>')}</span>`;
+      terminal.appendChild(line);
+    }
+
+    function createInputLine() {
+      const line = document.createElement("div");
+      line.className = "line";
+
+      const prompt = document.createElement("span");
+      prompt.className = "prompt";
+      prompt.textContent = promptSymbol;
+
+      const input = document.createElement("input");
+      input.type = "text";
+      input.autofocus = true;
+
+      input.addEventListener("keydown", function (e) {
+        if (e.key === "Enter") {
+          const command = input.value.trim();
+          handleCommand(command);
+          line.removeChild(input);
+          line.innerHTML = `<span class="prompt">${promptSymbol}</span><span>${command}</span>`;
+        }
+      });
+
+      line.appendChild(prompt);
+      line.appendChild(input);
+      terminal.appendChild(line);
+      input.focus();
+      terminal.scrollTop = terminal.scrollHeight;
+    }
+
+    async function handleCommand(command) {
+      if (command === "") {
+        createInputLine();
+        return;
+      }
+
+      if (command.toLowerCase() === "limpar") {
+        terminal.innerHTML = "";
+        createInputLine();
+        return;
+      }
+
+      const response = commands[command.toLowerCase()];
+      if (response !== undefined) {
+        appendLine(response);
+      } else if (command.toLowerCase().startsWith("clima")) {
+        const cidade = command.slice(6);
+        const clima = await fetchWeather(cidade);
+        appendLine(clima);
+      } else if (command.toLowerCase() === "piada") {
+        const piada = await fetchJoke();
+        appendLine(piada);
+      } else if (command.toLowerCase() === "hora") {
+        appendLine(new Date().toLocaleString());
+      } else if (command.toLowerCase() === "hacker-mode") {
+        appendLine(commands["hacker-mode"]);
+        document.body.style.backgroundColor = "#ff0000"; // Modo hacker visual
+        terminal.style.color = "#000";
+      } else {
+        appendLine("Comando não encontrado. Digite 'help' para ver os comandos disponíveis.");
+      }
+
+      createInputLine();
+    }
+
+    async function fetchWeather(cidade) {
+      const apiKey = "9fa62d6ca29934a465c20d697dfd24ba";
+      const url = `https://api.openweathermap.org/data/2.5/weather?q=${cidade}&appid=${apiKey}&lang=pt_br&units=metric`;
+      const res = await fetch(url);
+      const data = await res.json();
+
+      if (data.cod === "404") {
+        return "Cidade não encontrada.";
+      }
+
+      return `Clima em ${cidade}:
+      - Temperatura: ${data.main.temp}°C
+      - Descrição: ${data.weather[0].description}
+      - Humidade: ${data.main.humidity}%`;
+    }
+
+    async function fetchJoke() {
+      const res = await fetch("https://official-joke-api.appspot.com/random_joke");
+      const data = await res.json();
+      return `${data.setup} ${data.punchline}`;
+    }
+
+    // Função para simular animação de boot inicial
+    function bootAnimation() {
+      const bootMessages = [
+        "Inicializando terminal...",
+        "Carregando sistema...",
+        "Conectando ao servidor...",
+        "Sistema pronto para uso.",
+      ];
+
+      bootMessages.forEach((msg, index) => {
+        setTimeout(() => appendLine(msg), index * 1500);
+      });
+
+      setTimeout(() => createInputLine(), bootMessages.length * 1500);
+    }
+
+    // Inicializar terminal
+    bootAnimation();
+
+  </script>
+</body>
+</html>
