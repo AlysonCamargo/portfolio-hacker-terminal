@@ -1,25 +1,21 @@
-🖥️ Portfólio Hacker Terminal
 
-Este é um portfólio interativo no estilo terminal hacker, desenvolvido em HTML, CSS e JavaScript puro. É uma forma criativa e divertida de apresentar suas habilidades, projetos e informações de contato diretamente em um terminal simulado, com comandos personalizados.
+# 🖥️ Portfólio Hacker Terminal
 
-🔧 Funcionalidades
+Este é um portfólio interativo no estilo **terminal hacker**, desenvolvido em HTML, CSS e JavaScript puro. É uma forma criativa e divertida de apresentar suas habilidades, projetos e informações de contato diretamente em um terminal simulado, com comandos personalizados.
 
-Simula um terminal real com digitação de comandos.
+## 🔧 Funcionalidades
 
-Comandos personalizados com respostas únicas.
+- Simula um terminal real com digitação de comandos.
+- Comandos personalizados com respostas únicas.
+- Comando `clima [cidade]` que consome a API do OpenWeatherMap.
+- Comando `piada` que retorna uma piada aleatória.
+- Comando `hora` que mostra a data e hora atual.
+- Efeitos visuais como o `hacker-mode`, que altera o visual do terminal.
+- Animação de boot simulando inicialização do sistema.
 
-Comando clima [cidade] que consome a API do OpenWeatherMap.
+## 🧪 Comandos disponíveis
 
-Comando piada que retorna uma piada aleatória.
-
-Comando hora que mostra a data e hora atual.
-
-Efeitos visuais como o hacker-mode, que altera o visual do terminal.
-
-Animação de boot simulando inicialização do sistema.
-
-🧪 Comandos disponíveis
-
+```bash
 help          # Lista todos os comandos disponíveis
 sobre         # Mostra uma descrição pessoal
 habilidades   # Mostra habilidades e competências
@@ -31,38 +27,35 @@ clima [cidade]# Exibe a previsão do tempo da cidade informada
 piada         # Retorna uma piada aleatória
 hora          # Exibe data e hora atual
 hacker-mode   # Ativa modo visual hacker (divertido)
+```
 
-💡 Tecnologias utilizadas
+## 💡 Tecnologias utilizadas
 
-HTML5
+- HTML5
+- CSS3
+- JavaScript Vanilla
+- [OpenWeatherMap API](https://openweathermap.org/api)
+- [Official Joke API](https://github.com/15Dkatz/official_joke_api)
 
-CSS3
-
-JavaScript Vanilla
-
-OpenWeatherMap API
-
-Official Joke API
-
-📁 Estrutura
+## 📁 Estrutura
 
 Todo o projeto está contido em um único arquivo HTML. Não há dependências externas além das APIs consumidas dinamicamente.
 
-🚀 Como usar
+## 🚀 Como usar
 
-Clone este repositório ou copie o código:
+1. Clone este repositório ou copie o código:
+   ```bash
+   git clone https://github.com/AlysonCamargo/portfolio-hacker-terminal.git
+   ```
+2. Abra o arquivo `index.html` em qualquer navegador moderno.
+3. Use o terminal para explorar seu portfólio!
 
-git clone https://github.com/AlysonCamargo/portfolio-hacker-terminal.git
+## ✍️ Autor
 
-Abra o arquivo index.html em qualquer navegador moderno.
+Desenvolvido por **Alyson Camargo**  
+📧 alysoncamar@gmail.com  
+🐙 [GitHub](https://github.com/AlysonCamargo)
 
-Use o terminal para explorar seu portfólio!
-
-
-
-✍️ Autor
-
-Desenvolvido por Alyson Camargo📧 alysoncamar@gmail.com🐙 GitHub
+---
 
 Sinta-se à vontade para personalizar ou expandir os comandos com novas funcionalidades!
-
